@@ -1,14 +1,62 @@
 
+<head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 
+	<script>
+		function onSubmit() {
+	    	    document.getElementById('div-submit').style.display = 'none';
+		    document.getElementById('progress-bar').style.display = 'block';
+		}
+	</script>
 
-<h1> CUAHSI JupyterHub Data Downloader</h1>
+<style>
+.center {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}
+.title-center {
+  margin: auto;
+  width: 80%;
+  padding: 10px;
+  padding-top: 25px;
+}
 
+</style>
+</head>
+
+<div class=title-center>
+<h2> CUAHSI JupyterHub Data Downloader</h2>
+<p>
+Welcome to the CUAHSI Compute data downloader. This interface will allow you to download data you have stored in the CUAHSI JupyterHub as tar.gz archive. Please enter your username below to continue.
+</p>
+<div>
+
+<div id=content class=center>
 <form method='post' action='/user-submit'>
+    <div id=div-submit>
     <div>
-	<label for="input_username">Please Enter your Username:</label>
-        <input type='text' id='input_username' name='username'>
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"
+	   style='width:100%'>
+        <input class="mdl-textfield__input" type="text" id="input-username" name='username'>
+        <label class="mdl-textfield__label" for="input-username">Username</label>
+      </div>
+
     </div>
     <div>
-        <button type='submit'>Submit</button>
+        <button id=btn-submit 
+		type='submit'
+		class='mdl-button mdl-button--colored mdl-js-button mdl-button--raised'
+	        style='float:right'
+		onclick="onSubmit()">Submit</button>
+    </div>
+    </div>
+
+    <div id="progress-bar"
+	 style="display: none;" 
+	 class="mdl-progress mdl-js-progress mdl-progress__indeterminate">
+    </div>
     </div>
 </form>

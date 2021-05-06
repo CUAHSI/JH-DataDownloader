@@ -21,6 +21,7 @@ class Application(tornado.web.Application):
         endpoints = [
             (r"/", handlers.IndexHandler),
             (r'/user-submit', handlers.SubmitHandler),
+            (r'/complete/(.*)', handlers.CompleteHandler),
             (r"/data/(.*)", tornado.web.StaticFileHandler,
                             {"path": env.data_dir}),
         ]

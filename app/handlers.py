@@ -6,6 +6,7 @@ import json
 import subprocess
 import tornado.auth
 import tornado.web
+from tornado import gen 
 from tornado.log import app_log
 from tornado.log import enable_pretty_logging
 
@@ -26,13 +27,18 @@ class IndexHandler(tornado.web.RequestHandler):
 
         self.render("index.html", title="")
 
+class CompleteHandler(tornado.web.RequestHandler):
+
+    def get(self, username):
+        self.render("complete.html", title="", dat={'username': username})
+
 class SubmitHandler(tornado.web.RequestHandler):
 
+    @gen.coroutine
     def post(self):
 
         # get post argument
         username = self.get_body_argument("username")
-
 
         # check that username exists in cluster 
         # and get disk info
@@ -92,8 +98,11 @@ class SubmitHandler(tornado.web.RequestHandler):
             # error
             app_log.error(err)
 
+
+
         # redirect to download page
-        self.redirect(f'/data/{username}.tar.gz')
+        self.redirect(f'/complete/{username}')
+
 
 #        pvc_data['USERNAME'] = username
 #        self.render("user-submit.html", dat=pvc_data)
