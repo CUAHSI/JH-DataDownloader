@@ -1,0 +1,35 @@
+
+
+<head>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+
+<style>
+.center {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  padding-top: 25px;
+}
+
+</style>
+</head>
+
+
+<body>
+
+	<div class=center>
+		<h2>Data Extraction Successful</h2>
+		<div id=txt-description>
+				<p>
+				Use the link below to download an archive of your data.
+				</p>
+		</div>
+		<div id=btn-download>
+			<a class="mdl-button mdl-button--colored mdl-js-button mdl-button--raised"
+	   		   href="/data/{{ dat['username'] }}.tar.gz">Download</a>
+	    </div>
+	</div>
+
+</body>

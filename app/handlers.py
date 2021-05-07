@@ -27,10 +27,16 @@ class IndexHandler(tornado.web.RequestHandler):
 
         self.render("index.html", title="")
 
-class CompleteHandler(tornado.web.RequestHandler):
+class SuccessHandler(tornado.web.RequestHandler):
 
     def get(self, username):
-        self.render("complete.html", title="", dat={'username': username})
+        self.render("success.html", title="", dat={'username': username})
+
+#class ErrorHandler(tornado.web.RequestHandler):
+#
+#    def get(self):
+#        import pdb; pdb.set_trace()
+#        self.render("error.html", title="", dat={'username': 'test'})
 
 class SubmitHandler(tornado.web.RequestHandler):
 
@@ -48,20 +54,21 @@ class SubmitHandler(tornado.web.RequestHandler):
                username,
                env.cluster_namespace]
         app_log.info(cmd)
-        output, err = run_bash(env.utils,
+        rc, output, err = run_bash(env.utils,
                                cmd)
         output = output.decode().strip()
         err = err.decode().strip()
-        if len(output) > 0:
+        if rc == 0:
             # success
             pvc_data = json.loads(output)
             app_log.info(pvc_data)
 
         else:
             # error
-            app_log(err)
+            app_log.error(err)
             
-            # TODO: redirect to error page
+            # redirect to error page
+            self.render('error.html', dat={'error-msg': err})
 
 
         # attach, mount, and compress data
@@ -74,13 +81,16 @@ class SubmitHandler(tornado.web.RequestHandler):
                env.server_name,
                env.data_dir]
         app_log.info(cmd)
-        output, err = run_bash(env.utils,
+        rc, output, err = run_bash(env.utils,
                                cmd)
         output = output.decode().strip()
         err = err.decode().strip()
-        if len(err) > 0:
+        if rc != 0:
             # error
             app_log.error(err)
+            
+            # redirect to error page
+            self.render('error.html', dat={'error-msg': err})
 
         # detach disk and clean up
         app_log.info(f'detaching disk and cleaning up')
@@ -90,22 +100,19 @@ class SubmitHandler(tornado.web.RequestHandler):
                env.server_name,
                env.data_dir]
         app_log.info(cmd)
-        output, err = run_bash(env.utils,
+        rc, output, err = run_bash(env.utils,
                                cmd)
         output = output.decode().strip()
         err = err.decode().strip()
-        if len(err) > 0:
+        if rc != 0:
             # error
             app_log.error(err)
-
-
+            
+            # redirect to error page
+            self.render('error.html', dat={'error-msg': err})
 
         # redirect to download page
-        self.redirect(f'/complete/{username}')
-
-
-#        pvc_data['USERNAME'] = username
-#        self.render("user-submit.html", dat=pvc_data)
+        self.redirect(f'/success/{username}')
 
 
 def run_bash(cwd, cmd):
@@ -118,6 +125,6 @@ def run_bash(cwd, cmd):
     output, err = p.communicate()
     app_log.info(output)
     app_log.info(err)
-    return output, err
+    return p.returncode, output, err
 
 

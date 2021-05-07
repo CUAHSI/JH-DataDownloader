@@ -43,10 +43,11 @@ fi
 
 # compress the data, excluding hidden dirs and several known dirsa
 echo 'Compressing data'
-tar --exclude=conda-envs \
+tar -C $DATALOC \
+    --exclude=conda-envs \
     --exclude=lost+found \
     --exclude=".*" \
-    -czf $DATALOC/$USERNAME.tar.gz $loc
+    -czf $DATALOC/$USERNAME.tar.gz $USERNAME
 
 echo 'done'
 echo $DATALOC/$USERNAME.tar.gz
