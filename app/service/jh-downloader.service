@@ -1,0 +1,9 @@
+[Unit]
+Description=JupyterHub Data Retrieval Web Application
+
+[Service]
+WorkingDirectory=/srv/JH-DataDownloader/app
+ExecStart=/bin/bash /srv/JH-DataDownloader/app/start.sh
+
+[Install]
+WantedBy=multi-user.target
