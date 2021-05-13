@@ -15,10 +15,11 @@ import environment as env
 
 enable_pretty_logging()
 
+import db
+
 #import sqldata
 #sql = sqldata.Connect(env.sqldb)
 #sql.build()
-
 
 
 class IndexHandler(tornado.web.RequestHandler):
@@ -30,6 +31,8 @@ class IndexHandler(tornado.web.RequestHandler):
 class SuccessHandler(tornado.web.RequestHandler):
 
     def get(self, username):
+        pgdb = db.DB()
+        pgdb.insert(username)
         self.render("success.html", title="", dat={'username': username})
 
 #class ErrorHandler(tornado.web.RequestHandler):

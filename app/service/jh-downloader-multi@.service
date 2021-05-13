@@ -2,7 +2,10 @@
 Description=JupyterHub Data Retrieval Web Application
 
 [Service]
+User=castro
+Group=castro
 WorkingDirectory=/home/castro/JH-DataDownloader/app
+Environment=PATH=/home/castro/miniconda3/bin:/home/castro/miniconda3/condabin:/home/castro/.local/bin:/home/castro/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/var/lib/snapd/snap/bin
 ExecStart=/bin/bash /home/castro/JH-DataDownloader/app/start-multi.sh %I
 
 [Install]

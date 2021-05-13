@@ -28,3 +28,9 @@ utils = os.path.join(os.path.dirname(__file__), "utils")
 
 # kubernetes cluster namespace
 cluster_namespace = 'summa-jhub'
+
+# postgres
+db_user = 'jhdownloader'
+db_pwd = 'mma19casl!_as)'
+db_dbname = 'logging'
+db_ip = '127.0.0.1'
